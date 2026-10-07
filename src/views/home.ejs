@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>دستیار صوتی | کلینیک</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="page-home">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <header class="top-bar">
+    <div class="user-chip" id="userChip">
+      <span class="chip-dot"></span>
+      <span id="phoneDisplay">—</span>
+    </div>
+    <button type="button" class="btn-ghost" id="logoutBtn" title="خروج">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+      </svg>
+    </button>
+  </header>
+
+  <main class="home-shell">
+    <div class="status-area">
+      <p id="statusText" class="status-text">برای صحبت، دکمه را لمس کنید</p>
+      <p id="hintText" class="hint-text" hidden>
+        وقتی <strong>۳ ثانیه</strong> مکث کنید، پاسخ شما آماده می‌شود
+      </p>
+      <div id="processingBanner" class="processing-banner" hidden>
+        <div class="processing-spinner"></div>
+        <p>در حال پردازش... لطفاً منتظر بمانید، پاسخ شما به زودی آماده می‌شود</p>
+      </div>
+    </div>
+
+    <div class="mic-stage">
+      <!-- Visualizer rings -->
+      <div class="ring ring-1" id="ring1"></div>
+      <div class="ring ring-2" id="ring2"></div>
+      <div class="ring ring-3" id="ring3"></div>
+
+      <button
+        type="button"
+        id="micBtn"
+        class="mic-btn"
+        aria-label="شروع صحبت"
+        aria-pressed="false"
+      >
+        <span class="mic-inner">
+          <svg class="icon-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+          <svg class="icon-stop" viewBox="0 0 24 24" fill="currentColor" hidden>
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <div class="transcript-card" id="transcriptCard" hidden>
+      <p class="transcript-label">متن شما</p>
+      <p id="partialText" class="transcript-text"></p>
+    </div>
+
+    <div class="reply-card" id="replyCard" hidden>
+      <p class="reply-label">پاسخ دستیار</p>
+      <p id="replyText" class="reply-text"></p>
+    </div>
+  </main>
+
+  <script src="/js/voice.js"></script>
+</body>
+</html>

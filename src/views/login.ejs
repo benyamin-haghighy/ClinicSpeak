@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ورود | دستیار هوشمند کلینیک</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="page-login">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <main class="login-shell">
+    <div class="login-card">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+            <path d="M24 12v12l8 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="24" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <h1>دستیار هوشمند</h1>
+        <p class="subtitle">برای شروع، شماره موبایل خود را وارد کنید</p>
+      </div>
+
+      <form id="loginForm" class="login-form" autocomplete="tel" novalidate>
+        <div class="field">
+          <label for="phone">شماره موبایل</label>
+          <div class="input-wrap">
+            <span class="input-prefix">+۹۸</span>
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              inputmode="numeric"
+              maxlength="11"
+              placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+              dir="ltr"
+              required
+              aria-describedby="phoneHint"
+            />
+          </div>
+          <p id="phoneHint" class="hint">مثال: ۰۹۱۲۳۴۵۶۷۸۹</p>
+          <p id="phoneError" class="error" hidden></p>
+        </div>
+
+        <button type="submit" class="btn-primary" id="loginBtn">
+          <span class="btn-text">ورود</span>
+          <span class="btn-arrow" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+          </span>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById('loginForm');
+      const phoneInput = document.getElementById('phone');
+      const errorEl = document.getElementById('phoneError');
+      const btn = document.getElementById('loginBtn');
+
+      // Normalize Persian/Arabic digits to English
+      function toEnDigits(str) {
+        return str
+          .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+          .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+          .replace(/\D/g, '');
+      }
+
+      phoneInput.addEventListener('input', () => {
+        const raw = toEnDigits(phoneInput.value);
+        phoneInput.value = raw.slice(0, 11);
+        errorEl.hidden = true;
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const phone = toEnDigits(phoneInput.value);
+
+        if (!/^09\d{9}$/.test(phone)) {
+          errorEl.textContent = 'شماره موبایل معتبر نیست (باید با ۰۹ شروع شود و ۱۱ رقم باشد)';
+          errorEl.hidden = false;
+          phoneInput.focus();
+          return;
+        }
+
+        // Store only on frontend — no WebSocket yet
+        localStorage.setItem('clinic_phone', phone);
+        btn.disabled = true;
+        btn.classList.add('loading');
+
+        // Soft transition then navigate
+        document.body.classList.add('fade-out');
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 280);
+      });
+
+      // Auto-focus
+      phoneInput.focus();
+    })();
+  </script>
+</body>
+</html>
